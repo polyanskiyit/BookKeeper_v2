@@ -1,0 +1,41 @@
+﻿@*@model BookKeeper.Models.Book*@
+@**@
+@*@{*@
+@*    ViewBag.Title = "Delete";*@
+@*    Layout = "~/Views/Shared/_Layout.cshtml";*@
+@*}*@
+@**@
+@*<div class="panel">*@
+@*    <div class="alert-danger panel-heading alert__custom__margin">*@
+@*        <h2>Ви впевнені що хочете видалити вибрану книгу?</h2>*@
+@*    </div>*@
+@**@
+@*    @using (Html.BeginForm("Delete", "Home", FormMethod.Post))*@
+@*    {*@
+@*        foreach (var property in ViewData.ModelMetadata.Properties)*@
+@*        {*@
+@*            if (property.PropertyName != "Id")*@
+@*            {*@
+@*                <div class="form-group edit__block">*@
+@*                    <label>@(property.DisplayName ?? property.PropertyName)</label>*@
+@*                    @if (property.PropertyName == "Description")*@
+@*                    {*@
+@*                        @Html.TextArea(property.PropertyName, null, new {@class = "form-control", rows = 5, @readonly = true})*@
+@*                    }*@
+@*                    else*@
+@*                    {*@
+@*                        @Html.TextBox(property.PropertyName, null, new {@class = "form-control", @readonly = true})*@
+@*                    }*@
+@*                </div>*@
+@*            }*@
+@*        }*@
+@*        <br />*@
+@*        <br />*@
+@*        <br />*@
+@**@
+@*        <div class="panel-footer footerFixed">*@
+@*            <input class="btn btn-danger" type="submit" value="Delete"/>*@
+@*            @Html.ActionLink("Cansel", "Index", null, new {@class = "btn btn-warning"})*@
+@*        </div>*@
+@*    }*@
+@*</div>*@

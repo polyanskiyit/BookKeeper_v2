@@ -1,0 +1,54 @@
+﻿@*@using System.Web.Script.Serialization*@
+@model BookKeeper.Models.Book
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel">
+    <div class="alert-warning panel-heading alert__custom__margin">
+        <h2>Редагування вибраного екземпляра книги</h2>
+    </div>
+
+    @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
+    {
+        <div class="panel-body">
+            
+            @foreach (var property in ViewData.ModelMetadata.Properties)
+            {
+                if (property.PropertyName != "Id")
+                {
+                    <div class="form-group edit__block">
+                        <label>@(property.DisplayName ?? property.PropertyName)</label>
+
+                        @if (property.PropertyName == "Description")
+                        {
+                            @Html.TextArea(property.PropertyName, null, new {@class = "form-control", rows = 5})
+                        }
+                        else
+                        {
+                            @Html.TextBox(property.PropertyName, null, new {@class = "form-control"})
+                        }
+                        @Html.ValidationMessage(property.PropertyName)
+                    </div>
+                }
+            }
+        </div>
+
+        <br />
+        <br />
+
+        <div class="panel-footer footerFixed">
+            <input class="btn btn-success" type="submit" value="Save"/>
+            @Html.ActionLink("Cansel", "Index", null, new {@class = "btn btn-warning"})
+        </div>
+    }
+</div>
+
+@*@{*@
+@*    string serializeBook = new JavaScriptSerializer().Serialize(Model);*@
+@*}*@
+@**@
+@*<script type="text/javascript">*@
+@*    window.localStorage.setItem("Book", "[@serializeBook]");*@
+@*</script>*@

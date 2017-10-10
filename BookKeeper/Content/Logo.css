@@ -1,0 +1,23 @@
+﻿.Title__Logo__Block {
+    background-color: #FFBB00;
+    height: 150px;
+    width: 100%;
+}
+
+.logo___style___text {
+    font-size: xx-large;
+    padding: 10px;
+    position: relative;
+    top: 65px;
+}
+
+.logo___text___Content { color: black; }
+
+.logo___text___Content:hover { color: black; }
+
+.logo___subText {
+    font-size: smaller;
+    padding-left: 12px;
+    position: relative;
+    top: 62px;
+}

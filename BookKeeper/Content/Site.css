@@ -1,0 +1,43 @@
+﻿body {
+    background-color: #f7f7fa;
+    font-family: Verdana, Arial, Helvetica, Sans-Serif;
+    font-size: 13px;
+}
+
+table {
+    text-align: left;
+    vertical-align: middle;
+}
+
+.header { font-weight: bold; }
+
+td { padding-right: 10px; }
+
+input { width: 150px; }
+
+/*  alert   */
+
+.alert__custom__margin { margin-bottom: 1%; }
+
+/*edit and delete btn*/
+
+.main__page_btn { width: 48.5%; }
+
+.btn__control__blockCol { min-width: 170px; }
+
+.edit__block {
+    margin-left: 100px;
+    margin-right: 100px;
+}
+
+.footerFixed { height: 9999px; }
+
+.local__btn__edit {
+    margin-bottom: 2%;
+    width: 100%;
+}
+
+.local__btn__delete {
+    margin-top: 2%;
+    width: 100%;
+}

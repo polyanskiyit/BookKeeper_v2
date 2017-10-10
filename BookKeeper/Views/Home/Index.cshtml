@@ -1,0 +1,127 @@
+﻿@*@using System.Web.Script.Serialization*@
+@model BookKeeper.Models.Book
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="panel-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+            @*    Print title for colums    *@
+            <tr>
+                @foreach (var modelMetadataProperty in ViewData.ModelMetadata.Properties)
+                {
+                    if (modelMetadataProperty.PropertyName != "Id")
+                    {
+                        if (modelMetadataProperty.PropertyName == "Description")
+                        {
+                            <th class="col-sm-3">@(modelMetadataProperty.DisplayName ?? modelMetadataProperty.PropertyName)</th>
+                        }
+                        else
+                        {
+                            <th class="col-sm-1">@(modelMetadataProperty.DisplayName ?? modelMetadataProperty.PropertyName)</th>
+                        }
+                    }
+                }
+                <th class="col-sm-1 btn__control__blockCol"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            @using (Html.BeginForm())
+            {
+                foreach (var b in ViewBag.Books)
+                {
+                    if (ViewBag.Id == b.Id)
+                    {
+                        //  edit book local
+                        <tr>
+                            @foreach (var property in ViewData.ModelMetadata.Properties)
+                            {
+                                if (property.PropertyName != "Id")
+                                {
+                                    <td>
+                                        @Html.TextArea(property.PropertyName, null, new {@class = "form-control", rows = 5})
+                                    </td>
+                                    @Html.ValidationMessage(property.PropertyName)
+                                }
+                            }
+                            <td>
+                                <input class="btn btn-success main__page_btn" type="submit" value="Save"/>
+                                <a class="btn btn-warning main__page_btn" href="/Home/">Cansel</a>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        //  print books
+                        <tr>
+                            <td>@b["Name"]</td>
+                            <td>@b["Author"]</td>
+                            <td>@b["Category"]</td>
+                            <td>@b["Description"]</td>
+                            <td>@b["Year"]</td>
+                            <td>@b["Price"]</td>
+                            <td>
+                                @Ajax.ActionLink("Local Edit", "Index", new {id = b.Id}, new AjaxOptions(), new {@class = "btn btn-warning local__btn__edit"})
+                                @Ajax.ActionLink("Edit", "Edit", new {id = b.Id}, new AjaxOptions(), new {@class = "main__page_btn btn btn-warning"})
+                                @*                                @Ajax.ActionLink("Delete", "Delete", new { id = b.Id }, new AjaxOptions(), new { @class = "main__page_btn btn btn-danger" })*@
+                                <a class="main__page_btn btn btn-danger"
+                                   onclick="return confirm('Ви впевнені що хочете видалити вибрану книгу?') ? true : false;"
+                                   href="/Home/Delete/@b.Id">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+                //  row for new local book
+                if (ViewBag.NewBookFlag == 1)
+                {
+                    <tr>
+                        @foreach (var property in ViewData.ModelMetadata.Properties)
+                        {
+                            if (property.PropertyName != "Id")
+                            {
+                                <td>
+                                    @Html.TextArea(property.PropertyName, null, new {@class = "form-control", rows = 5})
+                                </td>
+                                @Html.ValidationMessage(property.PropertyName)
+                            }
+                        }
+                        <td>
+                            <input class="btn btn-success main__page_btn" type="submit" value="Save"/>
+                            <a class="btn btn-warning main__page_btn" href="/Home/">Cansel</a>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+        @Ajax.ActionLink("Add new Book to Collection Local", "CreateLocal", null, new AjaxOptions(), new {@class = "btn btn-success"})
+
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+
+    </div>
+</div>
+<div class="panel-footer footerFixed">
+    @Ajax.ActionLink("Add new Book to Collection", "Create", null, new AjaxOptions(), new {@class = "btn btn-success"})
+</div>
+
+
+@*@{*@
+@*    string serializeListOfBooks = new JavaScriptSerializer().Serialize(ViewBag.Books);*@
+@*}*@
+@**@
+@*<script type="text/javascript">*@
+@*    window.localStorage.setItem("ListOfBoos", "@serializeListOfBooks");*@
+@*</script>*@
