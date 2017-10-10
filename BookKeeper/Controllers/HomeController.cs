@@ -35,7 +35,6 @@ namespace BookKeeper.Controllers
                 ViewBag.Books = _db.Books;
                 return View("Index");
             }
-            TempData["e"] = $"Книгу з назвою '{book.Name}' не змінено!";
             ViewBag.Books = _db.Books;
             return View("Index", book);
         }
@@ -44,6 +43,32 @@ namespace BookKeeper.Controllers
         {
             _db.Dispose();
             base.Dispose(disposing);
+        }
+
+        [HttpGet]
+        public ActionResult LocalEditBook(int? id)
+        {
+            ViewBag.Id = id;
+            ViewBag.Books = _db.Books;
+            if (id == null) return RedirectToAction("Index");
+            var book = _db.Books.Find(id);
+            if (book != null)
+                return View("Index", book);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult LocalEditBook(Book book)
+        {
+            ViewBag.Books = _db.Books;
+            if (ModelState.IsValid)
+            {
+                _db.Entry(book).State = EntityState.Modified;
+                _db.SaveChanges();
+                TempData["m"] = $"Книгу з назвою '{book.Name}' успішно змінено!";
+                return RedirectToAction("Index");
+            }
+            return LocalEditBook(book.Id);
         }
 
         [HttpGet]
@@ -68,7 +93,6 @@ namespace BookKeeper.Controllers
             }
             return View(book);
         }
-
 
         [HttpGet]
         public ActionResult Create()
@@ -106,10 +130,19 @@ namespace BookKeeper.Controllers
         }
 
         [HttpGet]
-        public ActionResult CreateLocal()
+        public ActionResult CreateLocal(int? id)
         {
             ViewBag.NewBookFlag = 1;
             ViewBag.Books = SordDbById();
+            if (id == null)
+            {
+                ViewBag.NewBookFlag = 1;
+                return View("Index");
+            }
+            ViewBag.Id = id;
+            var book = _db.Books.Find(id);
+            if (book != null)
+                return View("Index", book);
             return View("Index");
         }
 
@@ -123,42 +156,15 @@ namespace BookKeeper.Controllers
         [HttpPost]
         public ActionResult CreateLocal(Book book)
         {
+            ViewBag.Books = _db.Books;
             if (ModelState.IsValid)
             {
                 _db.Books.Add(book);
                 _db.SaveChanges();
-                ViewBag.Books = _db.Books;
                 TempData["m"] = $"Книгу з назвою '{book.Name}' успішно додано до колекції!";
                 return RedirectToAction("Index");
             }
-            ViewBag.Books = _db.Books;
-            TempData["e"] = $"Книгу з назвою '{book.Name}' не додано!";
-            return View("Index", book);
+            return CreateLocal(book.Id);
         }
-
-        #region Old Delete Methods
-
-        //        [HttpGet]
-        //        public ActionResult Delete(int? id)
-        //        {
-        //            var book = _db.Books.Find(id);
-        //            if (book == null) return RedirectToAction("Index");
-        //            return View(book);
-        //        }
-        //
-        //        [HttpPost]
-        //        [ActionName("Delete")]
-        //        public ActionResult DeleteConfirmed(int id)
-        //        {
-        //            var book = _db.Books.Find(id);
-        //            if (book == null) return RedirectToAction("Index");
-        //
-        //            TempData["m"] = $"Книгу з назвою '{_db.Books.ToList().Find(m => m.Id == id).Name}' успішно видалено!";
-        //            _db.Books.Remove(book);
-        //            _db.SaveChanges();
-        //            return RedirectToAction("Index");
-        //        }
-
-        #endregion
     }
 }

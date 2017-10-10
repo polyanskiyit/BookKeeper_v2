@@ -4,6 +4,8 @@
     font-size: 13px;
 }
 
+.absoluteDiv { position: fixed; }
+
 table {
     text-align: left;
     vertical-align: middle;
@@ -40,4 +42,12 @@ input { width: 150px; }
 .local__btn__delete {
     margin-top: 2%;
     width: 100%;
+}
+
+.mb { margin-bottom: 250px; }
+
+.mdEdit { margin-bottom: 50px; }
+
+.block_resize_textarea {
+    resize: none;
 }

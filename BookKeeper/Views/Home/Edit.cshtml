@@ -1,5 +1,4 @@
-﻿@*@using System.Web.Script.Serialization*@
-@model BookKeeper.Models.Book
+﻿@model BookKeeper.Models.Book
 
 @{
     ViewBag.Title = "Edit";
@@ -12,7 +11,7 @@
 
     @using (Html.BeginForm("Edit", "Home", FormMethod.Post))
     {
-        <div class="panel-body">
+        <div class="panel-body mdEdit">
             
             @foreach (var property in ViewData.ModelMetadata.Properties)
             {
@@ -23,7 +22,7 @@
 
                         @if (property.PropertyName == "Description")
                         {
-                            @Html.TextArea(property.PropertyName, null, new {@class = "form-control", rows = 5})
+                            @Html.TextArea(property.PropertyName, null, new {@class = "form-control block_resize_textarea", rows = 5})
                         }
                         else
                         {
@@ -34,21 +33,9 @@
                 }
             }
         </div>
-
-        <br />
-        <br />
-
         <div class="panel-footer footerFixed">
             <input class="btn btn-success" type="submit" value="Save"/>
             @Html.ActionLink("Cansel", "Index", null, new {@class = "btn btn-warning"})
         </div>
     }
 </div>
-
-@*@{*@
-@*    string serializeBook = new JavaScriptSerializer().Serialize(Model);*@
-@*}*@
-@**@
-@*<script type="text/javascript">*@
-@*    window.localStorage.setItem("Book", "[@serializeBook]");*@
-@*</script>*@

@@ -227,7 +227,6 @@
     </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\BorderFixed.css" />
     <Content Include="Content\Logo.css" />
     <Content Include="Content\Validation.css" />
     <Content Include="favicon.ico" />
@@ -267,7 +266,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
-    <Content Include="Views\Home\Delete.cshtml" />
     <Content Include="Views\Home\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />

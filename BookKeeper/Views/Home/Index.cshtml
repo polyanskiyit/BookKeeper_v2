@@ -1,10 +1,20 @@
-﻿@*@using System.Web.Script.Serialization*@
-@model BookKeeper.Models.Book
+﻿@model BookKeeper.Models.Book
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+<script>
+    //    Save Scroll Position
+    $(document).scroll(function() {
+        localStorage['scrollTop'] = $(document).scrollTop();
+    });
+
+    $(document).ready(function() {
+        $(document).scrollTop(localStorage['scrollTop']);
+    });
+</script>
 
 <div class="container">
     <div class="panel-body">
@@ -44,9 +54,9 @@
                                 if (property.PropertyName != "Id")
                                 {
                                     <td>
-                                        @Html.TextArea(property.PropertyName, null, new {@class = "form-control", rows = 5})
+                                        @Html.TextArea(property.PropertyName, null, new {@class = "form-control block_resize_textarea", rows = 5})
+                                        @Html.ValidationMessage(property.PropertyName)
                                     </td>
-                                    @Html.ValidationMessage(property.PropertyName)
                                 }
                             }
                             <td>
@@ -57,18 +67,20 @@
                     }
                     else
                     {
-                        //  print books
+                        //  print book info
                         <tr>
-                            <td>@b["Name"]</td>
-                            <td>@b["Author"]</td>
-                            <td>@b["Category"]</td>
-                            <td>@b["Description"]</td>
-                            <td>@b["Year"]</td>
-                            <td>@b["Price"]</td>
+                            @foreach (var property in ViewData.ModelMetadata.Properties)
+                            {
+                                if (property.PropertyName != "Id")
+                                {
+                                    <td>
+                                        @b[property.PropertyName]
+                                    </td>
+                                }
+                            }
                             <td>
-                                @Ajax.ActionLink("Local Edit", "Index", new {id = b.Id}, new AjaxOptions(), new {@class = "btn btn-warning local__btn__edit"})
+                                @Ajax.ActionLink("Local Edit", "LocalEditBook", new {id = b.Id}, new AjaxOptions(), new {@class = "btn btn-warning local__btn__edit"})
                                 @Ajax.ActionLink("Edit", "Edit", new {id = b.Id}, new AjaxOptions(), new {@class = "main__page_btn btn btn-warning"})
-                                @*                                @Ajax.ActionLink("Delete", "Delete", new { id = b.Id }, new AjaxOptions(), new { @class = "main__page_btn btn btn-danger" })*@
                                 <a class="main__page_btn btn btn-danger"
                                    onclick="return confirm('Ви впевнені що хочете видалити вибрану книгу?') ? true : false;"
                                    href="/Home/Delete/@b.Id">
@@ -88,9 +100,9 @@
                             if (property.PropertyName != "Id")
                             {
                                 <td>
-                                    @Html.TextArea(property.PropertyName, null, new {@class = "form-control", rows = 5})
+                                    @Html.TextArea(property.PropertyName, null, new {@class = "form-control block_resize_textarea", rows = 5, placeholder = property.DisplayName})
+                                    @Html.ValidationMessage(property.PropertyName)
                                 </td>
-                                @Html.ValidationMessage(property.PropertyName)
                             }
                         }
                         <td>
@@ -102,26 +114,9 @@
             }
             </tbody>
         </table>
-        @Ajax.ActionLink("Add new Book to Collection Local", "CreateLocal", null, new AjaxOptions(), new {@class = "btn btn-success"})
-
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-        <br/>
-
+        @Ajax.ActionLink("Add new Book to Collection Local", "CreateLocal", null, new AjaxOptions(), new {@class = "btn btn-success mb"})
     </div>
 </div>
 <div class="panel-footer footerFixed">
     @Ajax.ActionLink("Add new Book to Collection", "Create", null, new AjaxOptions(), new {@class = "btn btn-success"})
 </div>
-
-
-@*@{*@
-@*    string serializeListOfBooks = new JavaScriptSerializer().Serialize(ViewBag.Books);*@
-@*}*@
-@**@
-@*<script type="text/javascript">*@
-@*    window.localStorage.setItem("ListOfBoos", "@serializeListOfBooks");*@
-@*</script>*@
